@@ -8,6 +8,7 @@ export default function AdminDashboard() {
   const [shipments, setShipments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
   const router = useRouter();
 
   // Filters & Pagination State
@@ -51,6 +52,25 @@ export default function AdminDashboard() {
       await fetch('/api/auth/logout', { method: 'POST' });
     } catch {}
     router.push('/admin/login');
+  };
+
+  const handleDelete = async (trackingNumber) => {
+    if (!window.confirm(`Delete shipment ${trackingNumber}? This cannot be undone.`)) return;
+
+    setDeletingId(trackingNumber);
+    try {
+      const res = await fetch(`/api/shipments/${trackingNumber}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        setShipments(prev => prev.filter(s => s.trackingNumber !== trackingNumber));
+      } else {
+        alert(data.error || 'Failed to delete shipment');
+      }
+    } catch {
+      alert('An error occurred while deleting.');
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   const getStatusBadge = (status) => {
@@ -298,13 +318,25 @@ export default function AdminDashboard() {
                         </td>
                         <td>{new Date(s.createdAt).toLocaleDateString()}</td>
                         <td>
-                          <div style={{ display: 'flex', gap: '8px' }}>
-                            <Link href={`/admin/update/${s.trackingNumber}`} className="btn-ghost btn-sm" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>
+                          <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', maxWidth: '180px' }}>
+                            <Link href={`/admin/edit/${s.trackingNumber}`} className="btn-ghost btn-sm" style={{ padding: '4px 8px', fontSize: '0.75rem' }}>
+                              Edit
+                            </Link>
+                            <Link href={`/admin/update/${s.trackingNumber}`} className="btn-ghost btn-sm" style={{ padding: '4px 8px', fontSize: '0.75rem' }}>
                               Update
                             </Link>
-                            <Link href={`/track/${s.trackingNumber}`} className="btn-ghost btn-sm" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>
+                            <Link href={`/track/${s.trackingNumber}`} className="btn-ghost btn-sm" style={{ padding: '4px 8px', fontSize: '0.75rem' }}>
                               View
                             </Link>
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(s.trackingNumber)}
+                              disabled={deletingId === s.trackingNumber}
+                              className="btn-ghost btn-sm"
+                              style={{ padding: '4px 8px', fontSize: '0.75rem', color: '#f43f5e', opacity: deletingId === s.trackingNumber ? 0.5 : 1, cursor: deletingId === s.trackingNumber ? 'not-allowed' : 'pointer' }}
+                            >
+                              {deletingId === s.trackingNumber ? 'Deleting...' : 'Delete'}
+                            </button>
                           </div>
                         </td>
                       </tr>
