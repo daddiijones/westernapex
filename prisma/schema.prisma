@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Shipment {
+  id                  String   @id @default(cuid())
+  trackingNumber      String   @unique
+  referenceNumber     String?  
+  
+  // Sender Details
+  senderName          String
+  senderCompany       String?
+  senderEmail         String?
+  senderPhone         String?
+  senderAddress       String
+  senderCity          String
+  senderState         String?
+  senderZip           String?
+  senderCountry       String
+
+  // Receiver Details
+  receiverName        String
+  receiverCompany     String?
+  receiverEmail       String
+  receiverPhone       String?
+  receiverAddress     String
+  receiverCity        String
+  receiverState       String?
+  receiverZip         String?
+  receiverCountry     String
+
+  // Logistics & Routing
+  originPort          String?
+  destinationPort     String?
+  carrierName         String?
+  vesselFlightNumber  String?
+  shippingMethod      String   
+  incoterms           String?  
+
+  // Freight Specifics
+  totalWeight         Float?
+  totalVolume         Float?   // CBM
+  packageCount        Int      @default(1)
+  packagePicture      String?
+
+  // Financials / Customs
+  customsValue        Float?
+  currency            String   @default("USD")
+  customsStatus       String   @default("Pending") 
+
+  // Dates
+  dispatchDate        DateTime?
+  estimatedDeparture  DateTime?
+  estimatedArrival    DateTime?
+  actualDelivery      DateTime?
+
+  // Master Status
+  status              String   @default("Processing")
+  
+  // Custom Waybill Specifications
+  paymentStatus       String?   @default("Pending")
+  stampDuty           String?   @default("Required")
+  volumetricWeight    Float?
+  xrayScanResult      String?   @default("Negative")
+  serviceCharge       String?
+  harmonizedCode      String?   @default("No")
+  senderVat           String?
+  receiverVat         String?
+  typeOfExport        String?   @default("Permanent")
+  dutiesPaymentTerms  String?   @default("Receiver")
+  toBePickedUpBy      String?
+  authorizedSignature String?
+  
+  // Services Checklist
+  servicePackaging    Boolean   @default(false)
+  serviceCargo        Boolean   @default(false)
+  serviceWorldwide    Boolean   @default(false)
+  serviceDoorToDoor   Boolean   @default(false)
+  serviceOther        Boolean   @default(false)
+  
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  
+  // Relations
+  items               PackageItem[]
+  updates             ShipmentUpdate[]
+}
+
+model PackageItem {
+  id          String   @id @default(cuid())
+  description String
+  quantity    Int      @default(1)
+  weight      Float?
+  length      Float?
+  width       Float?
+  height      Float?
+  hsCode      String?  
+  value       Float?
+  
+  shipmentId  String
+  shipment    Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+}
+
+model ShipmentUpdate {
+  id          String   @id @default(cuid())
+  location    String
+  latitude    Float?
+  longitude   Float?
+  status      String
+  description String?
+  timestamp   DateTime @default(now())
+  
+  shipmentId  String
+  shipment    Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+}
