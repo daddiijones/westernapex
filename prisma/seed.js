@@ -583,7 +583,11 @@ async function main() {
       }
     });
     console.log('✅ Sample shipment AWB-88012345 seeded');
-    await sendSeedEmail(shipment1);
+    try {
+      await sendSeedEmail(shipment1);
+    } catch (err) {
+      console.error(`⚠️  Email failed for ${shipment1.trackingNumber}: ${err.message}`);
+    }
 
   const shipment2 = await prisma.shipment.create({
       data: {
@@ -700,7 +704,11 @@ async function main() {
     });
     console.log('✅ Sample shipment HSCD0304132 seeded');
     console.log('   → Track it at: http://localhost:3000/track/HSCD0304132');
-    await sendSeedEmail(shipment2);
+    try {
+      await sendSeedEmail(shipment2);
+    } catch (err) {
+      console.error(`⚠️  Email failed for ${shipment2.trackingNumber}: ${err.message}`);
+    }
 
   const shipment3 = await prisma.shipment.create({
       data: {
@@ -833,7 +841,11 @@ async function main() {
     });
     console.log('✅ Sample shipment WAX-CUSTOMS-9921 seeded (duties pre-paid)');
     console.log('   → Track it at: http://localhost:3000/track/WAX-CUSTOMS-9921');
-    await sendSeedEmail(shipment3);
+    try {
+      await sendSeedEmail(shipment3);
+    } catch (err) {
+      console.error(`⚠️  Email failed for ${shipment3.trackingNumber}: ${err.message}`);
+    }
 }
 
 main()
