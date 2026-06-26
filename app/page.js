@@ -145,6 +145,7 @@ const testimonials = [
 
 export default function HomePage() {
   const [trackingNum, setTrackingNum] = useState('');
+  const [isTracking, setIsTracking] = useState(false);
   const router = useRouter();
 
   // Estimator States
@@ -160,7 +161,8 @@ export default function HomePage() {
 
   const handleTrack = (e) => {
     e.preventDefault();
-    if (trackingNum.trim()) {
+    if (trackingNum.trim() && !isTracking) {
+      setIsTracking(true);
       router.push(`/track/${trackingNum.trim()}`);
     }
   };
@@ -272,6 +274,7 @@ export default function HomePage() {
                   placeholder="Enter tracking number..."
                   value={trackingNum}
                   onChange={(e) => setTrackingNum(e.target.value)}
+                  disabled={isTracking}
                   style={{
                     width: '100%',
                     padding: '16px 16px 16px 48px',
@@ -282,6 +285,7 @@ export default function HomePage() {
                     fontSize: '0.95rem',
                     outline: 'none',
                     transition: 'all 0.3s',
+                    opacity: isTracking ? 0.6 : 1,
                   }}
                   onFocus={(e) => {
                     e.target.style.borderColor = 'rgba(239,68,68,0.3)';
@@ -293,12 +297,25 @@ export default function HomePage() {
                   }}
                 />
               </div>
-              <button type="submit" className="btn-primary" style={{
+              <button type="submit" className="btn-primary" disabled={isTracking} style={{
                 padding: '16px 28px',
                 borderRadius: '12px',
                 whiteSpace: 'nowrap',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                opacity: isTracking ? 0.7 : 1,
+                cursor: isTracking ? 'not-allowed' : 'pointer',
               }}>
-                Track
+                {isTracking ? (
+                  <>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ animation: 'spin-slow 0.8s linear infinite' }}>
+                      <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                    </svg>
+                    Tracking...
+                  </>
+                ) : 'Track'}
               </button>
             </form>
           </div>
