@@ -165,6 +165,7 @@ export default function HelpPage() {
             <p style={{ color: '#94a3b8', marginBottom: '24px' }}>Our support team is available 24/7 to assist you.</p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a href="/contact" className="btn-primary">Contact Support</a>
+              <a href="https://wa.me/12102143149" target="_blank" rel="noopener noreferrer" className="btn-secondary">WhatsApp Us</a>
               <a href="mailto:support@westernapex.online" className="btn-secondary">Email Us</a>
             </div>
           </div>

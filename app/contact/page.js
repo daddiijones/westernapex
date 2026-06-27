@@ -81,9 +81,13 @@ export default function ContactPage() {
                   icon: (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                   ),
-                  label: 'Phone',
-                  value: '+1 (800) 555-APEX',
-                  sub: '+44 20 7946 0958',
+                  label: 'WhatsApp',
+                  value: '+1 (210) 214-3149',
+                  valueCaption: 'Main WhatsApp',
+                  valueHref: 'https://wa.me/12102143149',
+                  sub: '+62 851 8789 8810',
+                  subCaption: 'Branch Office Customer Care',
+                  subHref: 'https://wa.me/6285187898810',
                 },
                 {
                   icon: (
@@ -106,8 +110,20 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div style={{ fontSize: '0.75rem', fontWeight: '600', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#64748b', marginBottom: '4px' }}>{item.label}</div>
-                    <div style={{ fontWeight: '600', marginBottom: '2px' }}>{item.value}</div>
-                    <div style={{ color: '#64748b', fontSize: '0.85rem' }}>{item.sub}</div>
+                    {item.valueHref ? (
+                      <a href={item.valueHref} target="_blank" rel="noopener noreferrer" style={{ display: 'block', fontWeight: '600', marginBottom: '2px', color: '#f1f5f9', textDecoration: 'none' }}>
+                        {item.value}{item.valueCaption && <span style={{ color: '#64748b', fontWeight: '400' }}> — {item.valueCaption}</span>}
+                      </a>
+                    ) : (
+                      <div style={{ fontWeight: '600', marginBottom: '2px' }}>{item.value}</div>
+                    )}
+                    {item.subHref ? (
+                      <a href={item.subHref} target="_blank" rel="noopener noreferrer" style={{ display: 'block', color: '#64748b', fontSize: '0.85rem', textDecoration: 'none' }}>
+                        {item.sub}{item.subCaption && <span> — {item.subCaption}</span>}
+                      </a>
+                    ) : (
+                      <div style={{ color: '#64748b', fontSize: '0.85rem' }}>{item.sub}</div>
+                    )}
                   </div>
                 </div>
               ))}
