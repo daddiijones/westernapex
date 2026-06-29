@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny-ps" viewBox="0 0 100 100">
+  <title>WesternApex</title>
+  <rect width="100" height="100" rx="18" fill="#ef4444"/>
+  <path fill="#ffffff" d="M50 18 L74 80 L61 80 L56 67 L44 67 L39 80 L26 80 Z M48 56 L52 56 L50 42 Z"/>
+  <path fill="#ffffff" d="M30 66 L62 30 L62 40 L38 64 Z"/>
+  <path fill="#ffffff" d="M58 22 L80 22 L80 44 L71 35 L62 44 L58 40 L67 31 Z"/>
+</svg>
