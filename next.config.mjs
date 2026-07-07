@@ -1,12 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
   experimental: {
-    // Shared hosting (cPanel/CloudLinux) caps the number of OS processes per
-    // account. Worker threads stay in-process instead of spawning new ones,
-    // and capping cpus avoids exhausting that limit during build.
+    // Shared hosting (cPanel/CloudLinux) caps OS processes — worker threads
+    // stay in-process instead of spawning new ones; cpus:1 keeps build workers low.
     workerThreads: true,
     cpus: 1,
+  },
+  images: {
+    // Disable Next.js image optimization — removes sharp worker threads at runtime.
+    // This app uses <img> tags directly so there is no visual impact.
+    unoptimized: true,
   },
 };
 

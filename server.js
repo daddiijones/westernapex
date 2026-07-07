@@ -1,3 +1,6 @@
+// Cap libuv thread pool before any I/O modules load — shared hosting limits total threads per account
+process.env.UV_THREADPOOL_SIZE = '1';
+
 const { createServer } = require('http');
 const next = require('next');
 

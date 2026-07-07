@@ -1,0 +1,4 @@
+# Limit Passenger to a single Node.js process to stay within the shared-hosting thread limit.
+# Without this, Passenger may spawn 2+ instances and double/triple the thread count.
+PassengerMaxInstances 1
+PassengerMaxRequests 1000
