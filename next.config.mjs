@@ -7,13 +7,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Skip TS type-checking and ESLint during build — each spawns a separate worker process.
-  // Run these locally before pushing; they should not run on the shared-hosting build machine.
+  // Skip TS type-checking during build — the checker spawns a separate worker process.
+  // Run checks locally before pushing; shared hosting can't afford the extra process.
   typescript: {
     ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
   webpack: (config) => {
     // Force single-threaded minimization — the SWC/Terser minimizer has its own
