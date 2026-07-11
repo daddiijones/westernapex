@@ -1,5 +1,6 @@
-// Cap libuv thread pool before any I/O modules load — shared hosting limits total threads per account
-process.env.UV_THREADPOOL_SIZE = '1';
+// These must be set before any modules load for the limits to take effect at startup
+process.env.UV_THREADPOOL_SIZE = '1';    // cap libuv thread pool (default is 4)
+process.env.NEXT_TELEMETRY_DISABLED = '1'; // prevent Next.js spawning a background telemetry process
 
 const { createServer } = require('http');
 const next = require('next');
