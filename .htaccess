@@ -1,4 +1,9 @@
-# Limit Passenger to a single Node.js process to stay within the shared-hosting thread limit.
-# Without this, Passenger may spawn 2+ instances and double/triple the thread count.
+# Pass these to Node.js before the process starts — this is more reliable than
+# setting them in server.js code, where the runtime may already be initialized.
+SetEnv UV_THREADPOOL_SIZE 1
+SetEnv NEXT_TELEMETRY_DISABLED 1
+SetEnv NODE_OPTIONS --v8-pool-size=0
+
+# Limit Passenger to one Node.js process instead of spawning multiple instances.
 PassengerMaxInstances 1
 PassengerMaxRequests 1000
